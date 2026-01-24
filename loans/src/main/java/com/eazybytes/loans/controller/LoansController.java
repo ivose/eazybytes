@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +32,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(
     path = "/api",
     produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 public class LoansController {
 
-  private ILoansService iLoansService;
+  private final ILoansService iLoansService;
+
+
+  @Value("${build.version}")
+  private String buildVersion;
+
+  @Autowired
+  private Environment environment;
+
+  public LoansController(ILoansService iLoansService) {
+    this.iLoansService = iLoansService;
+  }
 
   @Operation(
       summary = "Create Loan REST API",
@@ -111,4 +124,32 @@ public class LoansController {
           .body(new ResponseDto(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_DELETE));
     }
   }
+
+  @Operation(
+          summary = "Get build information",
+          description = "Get build information")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(
+          responseCode = "500",
+          description = "HTTP Status Internal Server Error",
+          content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+  @GetMapping("/build-info")
+  public ResponseEntity<String> getBuildInfo() {
+    return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+  }
+
+  @Operation(
+          summary = "Get maven version",
+          description = "Get maven version")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(
+          responseCode = "500",
+          description = "HTTP Status Internal Server Error",
+          content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+  @GetMapping("/maven-version")
+  public ResponseEntity<String> getMavenVersion() {
+    return ResponseEntity.status(HttpStatus.OK).body(
+            environment.getProperty("MAVEN_HOME"));
+  }
+
 }
