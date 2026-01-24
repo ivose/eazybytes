@@ -1,7 +1,7 @@
 package com.eazybytes.accounts.controller;
 
 import com.eazybytes.accounts.constants.AccountsConstants;
-import com.eazybytes.accounts.dto.AccountContactInfoDto;
+import com.eazybytes.accounts.dto.AccountsContactInfoDto;
 import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.dto.ErrorResponseDto;
 import com.eazybytes.accounts.dto.ResponseDto;
@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -38,18 +37,16 @@ public class AccountsController {
 
   private final IAccountsService iAccountsService;
 
-  @Value("${build.version}") //ressources.application.yml'ist väärtus
-  private String buildVersion;
-
-  @Autowired
-  private Environment environment;
-
-  @Autowired
-  private AccountContactInfoDto accountContactInfoDto;
-
   public AccountsController(IAccountsService iAccountsService) {
     this.iAccountsService = iAccountsService;
   }
+
+  @Value("${build.version}") // ressources.application.yml'ist väärtus
+  private String buildVersion;
+
+
+  @Autowired private AccountsContactInfoDto accountsContactInfoDto;
+  @Autowired private Environment environment;
 
   @Operation(
       summary = "Create Account REST API",
@@ -130,58 +127,48 @@ public class AccountsController {
   }
 
   @Operation(
-          summary = "Get build information",
-          description = "Get build information")
+      summary = "Get Build information",
+      description = "Get Build information that is deployed into accounts microservice")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
-          responseCode = "500",
-          description = "HTTP Status Internal Server Error",
-          content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+      responseCode = "500",
+      description = "HTTP Status Internal Server Error",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/build-info")
   public ResponseEntity<String> getBuildInfo() {
     return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
   }
 
-  @Operation(
-          summary = "Get java version",
-          description = "Get java version")
+  @Operation(summary = "Get java version", description = "Get java version")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
-          responseCode = "500",
-          description = "HTTP Status Internal Server Error",
-          content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+      responseCode = "500",
+      description = "HTTP Status Internal Server Error",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/java-version")
   public ResponseEntity<String> getJavaVersion() {
-    return ResponseEntity.status(HttpStatus.OK).body(
-            environment.getProperty("JAVA_HOME"));
+    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
   }
 
-  @Operation(
-          summary = "Get maven version",
-          description = "Get maven version")
+  @Operation(summary = "Get maven version", description = "Get maven version")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
-          responseCode = "500",
-          description = "HTTP Status Internal Server Error",
-          content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+      responseCode = "500",
+      description = "HTTP Status Internal Server Error",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/maven-version")
   public ResponseEntity<String> getMavenVersion() {
-    return ResponseEntity.status(HttpStatus.OK).body(
-            environment.getProperty("MAVEN_HOME"));
+    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("MAVEN_HOME"));
   }
 
-
-  @Operation(
-          summary = "Get contact info",
-          description = "Get contact info of admin")
+  @Operation(summary = "Get contact info", description = "Get contact info of admin")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
-          responseCode = "500",
-          description = "HTTP Status Internal Server Error",
-          content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+      responseCode = "500",
+      description = "HTTP Status Internal Server Error",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/contact-info")
-  public ResponseEntity<AccountContactInfoDto> getContactInfo() {
-    return ResponseEntity.status(HttpStatus.OK).body(accountContactInfoDto);
+  public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+    return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
   }
-
 }

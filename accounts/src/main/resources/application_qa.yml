@@ -7,7 +7,7 @@ build:
   version: "2.0"
 
 accounts:
-  message: "Welcome to eazybank accounts related local apis"
+  message: "Welcome to eazybank accounts related local apis (ga)"
   contact-details:
     name: "John doe"
     email: "johndoe@example.com"
