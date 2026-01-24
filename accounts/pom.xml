@@ -31,6 +31,7 @@
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
         <docker.image.tag>s6</docker.image.tag>
+        <spring.cloud.version>2025.0.1</spring.cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,7 +50,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -96,6 +100,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -140,6 +155,18 @@
                         <!--mvn compile jib:dockerBuild-->
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
                     </to>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!--for using spotless and sonarcube analysis -->
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+                <configuration>
+                    <java>
+                        <googleJavaFormat />
+                        <removeUnusedImports />
+                    </java>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,15 +1,4 @@
-project:
-  version: "1.0"
-management:
-  health:
-    rabbit:
-      enabled: false
-
 spring:
-  rabbitmq:
-    listener:
-      simple:
-        auto-startup: false
   application:
     name: configserver
   profiles:
@@ -18,7 +7,8 @@ spring:
     config:
       server:
         native:
-          search-locations: "classpath:/config"
+          #search-locations: "classpath:/config"
+          search-locations: "file:C:///ivo//koolitusi//eazybankconfig"
 
 server:
   port: 8071
