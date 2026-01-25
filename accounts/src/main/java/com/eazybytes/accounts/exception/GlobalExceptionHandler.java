@@ -1,7 +1,6 @@
 package com.eazybytes.accounts.exception;
 
 import com.eazybytes.accounts.dto.ErrorResponseDto;
-import jakarta.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
       MethodArgumentNotValidException ex,
       HttpHeaders headers,
-      @Nullable HttpStatusCode status,
+      HttpStatusCode status,
       WebRequest request) {
     Map<String, String> validationErrors = new HashMap<>();
     List<ObjectError> validationErrorList = ex.getBindingResult().getAllErrors();

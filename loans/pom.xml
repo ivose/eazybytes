@@ -104,6 +104,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -161,7 +162,6 @@
                     </to>
                 </configuration>
             </plugin>
-
             <plugin>
                 <!--for using spotless and sonarcube analysis -->
                 <groupId>com.diffplug.spotless</groupId>

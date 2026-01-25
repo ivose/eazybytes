@@ -44,7 +44,6 @@ public class AccountsController {
   @Value("${build.version}") // ressources.application.yml'ist väärtus
   private String buildVersion;
 
-
   @Autowired private AccountsContactInfoDto accountsContactInfoDto;
   @Autowired private Environment environment;
 
