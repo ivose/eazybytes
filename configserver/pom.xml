@@ -28,6 +28,8 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <docker.image.prefix>ivo123</docker.image.prefix>
+        <docker.image.tag>s6</docker.image.tag>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
@@ -77,7 +79,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <to>
-                        <image>eazybytes/${project.artifactId}:s6</image>
+                        <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
                     </to>
                 </configuration>
             </plugin>

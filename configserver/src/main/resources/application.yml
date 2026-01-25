@@ -2,13 +2,23 @@ spring:
   application:
     name: configserver
   profiles:
-    active: native
+    # active: native
+    active: git
   cloud:
     config:
       server:
-        native:
+        # native:
           #search-locations: "classpath:/config"
-          search-locations: "file:C:///ivo//koolitusi//eazybankconfig"
+          #search-locations: "file:C:///ivo//koolitusi//eazybankconfig"
+        git:
+          uri: "https://github.com/ivose/config-server"
+          default-label: "main"
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+
+encrypt:
+  key: "3412341234123412341"
 
 server:
   port: 8071

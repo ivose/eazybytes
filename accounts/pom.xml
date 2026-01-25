@@ -31,7 +31,7 @@
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
         <docker.image.tag>s6</docker.image.tag>
-        <spring.cloud.version>2025.0.1</spring.cloud.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -53,6 +53,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -105,7 +109,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -115,14 +119,26 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <image>
-                        <!--dockeri jaoks "mvn spring-boot:build-image"-->
-                        <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s6-->
+                    <!--dockeri jaoks "mvn spring-boot:build-image"-->
+                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s6-->
+                    <!--<image>
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
-                    </image>
+                    </image>-->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -132,31 +148,17 @@
                 </configuration>
             </plugin>
             <plugin>
-                <!--for using spotless and sonarcube analysis -->
-                <groupId>com.diffplug.spotless</groupId>
-                <artifactId>spotless-maven-plugin</artifactId>
-                <version>2.43.0</version>
-                <configuration>
-                    <java>
-                        <googleJavaFormat />
-                        <removeUnusedImports />
-                    </java>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.1</version>
                 <configuration>
-                    <from>
-                        <image>eclipse-temurin:21-jre-jammy</image>
-                    </from>
                     <to>
                         <!--mvn compile jib:dockerBuild-->
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
                     </to>
                 </configuration>
             </plugin>
+
             <plugin>
                 <!--for using spotless and sonarcube analysis -->
                 <groupId>com.diffplug.spotless</groupId>
@@ -164,8 +166,8 @@
                 <version>2.43.0</version>
                 <configuration>
                     <java>
-                        <googleJavaFormat />
-                        <removeUnusedImports />
+                        <googleJavaFormat/>
+                        <removeUnusedImports/>
                     </java>
                 </configuration>
             </plugin>
