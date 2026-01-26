@@ -30,7 +30,7 @@
     <properties>
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
-        <docker.image.tag>s7</docker.image.tag>
+        <docker.image.tag>s6</docker.image.tag>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
@@ -55,15 +55,23 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-h2console</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -96,7 +104,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -128,7 +135,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--dockeri jaoks "mvn spring-boot:build-image"-->
-                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s7-->
+                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s6-->
                     <!--<image>
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
                     </image>-->
@@ -146,7 +153,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <to>
-                        <!--mvn compile jib:dockerBuild (toimib ilma vastava Dockerfile failita)-->
+                        <!--mvn compile jib:dockerBuild-->
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
                     </to>
                 </configuration>
