@@ -29,7 +29,7 @@
     <properties>
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
-        <docker.image.tag>s6</docker.image.tag>
+        <docker.image.tag>s7</docker.image.tag>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
@@ -40,14 +40,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-monitor</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
