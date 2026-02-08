@@ -30,7 +30,7 @@
     <properties>
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
-        <docker.image.tag>s6</docker.image.tag>
+        <docker.image.tag>s8</docker.image.tag>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
@@ -68,10 +68,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-h2console</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -136,7 +132,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--dockeri jaoks "mvn spring-boot:build-image"-->
-                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s6-->
+                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s8-->
                     <!--<image>
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
                     </image>-->
