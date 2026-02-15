@@ -12,7 +12,6 @@ spring:
               enabled: false
               lowerCaseServiceId: true
 
-
 management:
   endpoints:
     web:
@@ -36,3 +35,4 @@ logging:
     com:
       eazybytes:
         gatewayserver: DEBUG
+
