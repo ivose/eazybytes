@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GatewayserverApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GatewayserverApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(GatewayserverApplication.class, args);
+  }
 
   @Bean
   public RouteLocator eazyBankRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {

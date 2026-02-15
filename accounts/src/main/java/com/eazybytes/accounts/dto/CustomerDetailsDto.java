@@ -24,7 +24,7 @@ public class CustomerDetailsDto {
   private String email;
 
   @Schema(description = "Mobile Number of the customer", example = "9345432123")
-  @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
+  @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
   private String mobileNumber;
 
   @Schema(description = "Account details of the Customer")

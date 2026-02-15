@@ -13,7 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -35,16 +36,22 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class CardsController {
 
+  private static final Logger logger = LoggerFactory.getLogger(CardsController.class);
+
   private final ICardsService iCardsService;
+  private final CardsContactInfoDto cardsContactInfoDto;
+  private final Environment environment;
 
   @Value("${build.version}")
   private String buildVersion;
 
-  @Autowired private Environment environment;
-  @Autowired private CardsContactInfoDto cardsContactInfoDto;
-
-  public CardsController(ICardsService iCardsService) {
+  public CardsController(
+      ICardsService iCardsService,
+      CardsContactInfoDto cardsContactInfoDto,
+      Environment environment) {
     this.iCardsService = iCardsService;
+    this.cardsContactInfoDto = cardsContactInfoDto;
+    this.environment = environment;
   }
 
   @Operation(
@@ -76,8 +83,10 @@ public class CardsController {
       content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetch")
   public ResponseEntity<CardsDto> fetchCardDetails(
+      @RequestHeader("eazybank-correlation-id") String correlationId,
       @RequestParam @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
           String mobileNumber) {
+    logger.debug("eazyBank-correlation-id found: {} ", correlationId);
     CardsDto cardsDto = iCardsService.fetchCard(mobileNumber);
     return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
   }
@@ -126,7 +135,9 @@ public class CardsController {
     }
   }
 
-  @Operation(summary = "Get build information", description = "Get build information")
+  @Operation(
+      summary = "Get Build information",
+      description = "Get Build information that is deployed into cards microservice")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
       responseCode = "500",
@@ -137,15 +148,17 @@ public class CardsController {
     return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
   }
 
-  @Operation(summary = "Get maven version", description = "Get maven version")
+  @Operation(
+      summary = "Get Java version",
+      description = "Get Java versions details that is installed into cards microservice")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
       responseCode = "500",
       description = "HTTP Status Internal Server Error",
       content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
-  @GetMapping("/maven-version")
-  public ResponseEntity<String> getMavenVersion() {
-    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("MAVEN_HOME"));
+  @GetMapping("/java-version")
+  public ResponseEntity<String> getJavaVersion() {
+    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
   }
 
   @Operation(

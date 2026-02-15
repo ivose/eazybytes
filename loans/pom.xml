@@ -133,9 +133,6 @@
                 <configuration>
                     <!--dockeri jaoks "mvn spring-boot:build-image"-->
                     <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s9-->
-                    <!--<image>
-                        <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
-                    </image>-->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -149,9 +146,6 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <!--<from>
-                        <image>eclipse-temurin:21-jre-jammy</image>
-                    </from>-->
                     <to>
                         <!--mvn compile jib:dockerBuild-->
                         <image>${docker.image.prefix}/${project.artifactId}:${docker.image.tag}</image>
