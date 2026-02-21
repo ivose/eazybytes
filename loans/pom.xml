@@ -30,7 +30,7 @@
     <properties>
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
-        <docker.image.tag>s9</docker.image.tag>
+        <docker.image.tag>s10</docker.image.tag>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
@@ -132,7 +132,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--dockeri jaoks "mvn spring-boot:build-image"-->
-                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s9-->
+                    <!--docker images; docker run -d -p 8080:8080 eazybytes/account:s10-->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

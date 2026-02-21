@@ -146,7 +146,9 @@ public class LoansController {
     return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
   }
 
-  @Operation(summary = "Get Java version", description = "Get Java version")
+  @Operation(
+      summary = "Get Java version",
+      description = "Get Java versions details that is installed into cards microservice")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(
       responseCode = "500",
@@ -167,6 +169,7 @@ public class LoansController {
       content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/contact-info")
   public ResponseEntity<LoansContactInfoDto> getContactInfo() {
+    logger.debug("Invoked Loans contact-info API");
     return ResponseEntity.status(HttpStatus.OK).body(loansContactInfoDto);
   }
 }

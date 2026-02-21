@@ -6,6 +6,8 @@ import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.dto.ErrorResponseDto;
 import com.eazybytes.accounts.dto.ResponseDto;
 import com.eazybytes.accounts.service.IAccountsService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -33,6 +37,8 @@ import org.springframework.web.bind.annotation.*;
     produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class AccountsController {
+
+  private static final Logger logger = LoggerFactory.getLogger(AccountsController.class);
 
   private final IAccountsService iAccountsService;
   private final AccountsContactInfoDto accountsContactInfoDto;
@@ -111,7 +117,7 @@ public class AccountsController {
   @ApiResponse(responseCode = "417", description = "Expectation Failed")
   @ApiResponse(
       responseCode = "500",
-      description = "HTTP Status Internal Server Error--",
+      description = "HTTP Status Internal Server Error",
       content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteAccountDetails(
@@ -136,9 +142,18 @@ public class AccountsController {
       responseCode = "500",
       description = "HTTP Status Internal Server Error",
       content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+  @Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
   @GetMapping("/build-info")
   public ResponseEntity<String> getBuildInfo() {
+    logger.debug("getBuildInfo() method Invoked");
     return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+  }
+
+  public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("getBuildInfoFallback() method Invoked: {}", throwable.toString());
+    }
+    return ResponseEntity.status(HttpStatus.OK).body("0.9");
   }
 
   @Operation(
@@ -149,20 +164,17 @@ public class AccountsController {
       responseCode = "500",
       description = "HTTP Status Internal Server Error",
       content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+  @RateLimiter(name = "getJavaVersion", fallbackMethod = "getJavaVersionFallback")
   @GetMapping("/java-version")
   public ResponseEntity<String> getJavaVersion() {
     return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
   }
 
-  @Operation(summary = "Get maven version", description = "Get maven version")
-  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status Internal Server Error",
-      content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
-  @GetMapping("/maven-version")
-  public ResponseEntity<String> getMavenVersion() {
-    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("MAVEN_HOME"));
+  public ResponseEntity<String> getJavaVersionFallback(Throwable throwable) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("getJavaVersionFallback() invoked due to: {}", throwable.toString());
+    }
+    return ResponseEntity.status(HttpStatus.OK).body("Java 21");
   }
 
   @Operation(
@@ -176,5 +188,16 @@ public class AccountsController {
   @GetMapping("/contact-info")
   public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
     return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
+  }
+
+  @Operation(summary = "Get maven version", description = "Get maven version")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(
+      responseCode = "500",
+      description = "HTTP Status Internal Server Error",
+      content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+  @GetMapping("/maven-version")
+  public ResponseEntity<String> getMavenVersion() {
+    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("MAVEN_HOME"));
   }
 }
