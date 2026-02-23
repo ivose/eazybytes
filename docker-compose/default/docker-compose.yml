@@ -228,7 +228,7 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "ivo123/configserver:s12"
+    image: "ivo123/configserver:s13"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -245,7 +245,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "ivo123/eurekaserver:s12"
+    image: "ivo123/eurekaserver:s13"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -266,7 +266,7 @@ services:
       OTEL_SERVICE_NAME: "eurekaserver"
 
   accounts:
-    image: "ivo123/accounts:s12"
+    image: "ivo123/accounts:s13"
     container_name: accounts-ms
     depends_on:
       configserver:
@@ -287,7 +287,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "ivo123/loans:s12"
+    image: "ivo123/loans:s13"
     container_name: loans-ms
     depends_on:
       configserver:
@@ -308,7 +308,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "ivo123/cards:s12"
+    image: "ivo123/cards:s13"
     container_name: cards-ms
     depends_on:
       configserver:
@@ -329,7 +329,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "ivo123/gatewayserver:s12"
+    image: "ivo123/gatewayserver:s13"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
