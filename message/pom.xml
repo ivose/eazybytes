@@ -16,7 +16,7 @@
     <properties>
         <java.version>21</java.version>
         <docker.image.prefix>ivo123</docker.image.prefix>
-        <docker.image.tag>s13</docker.image.tag>
+        <docker.image.tag>s14</docker.image.tag>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
     <dependencies>
