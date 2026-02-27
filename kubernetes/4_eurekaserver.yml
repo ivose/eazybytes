@@ -17,7 +17,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: eurekaserver
-        image: ivo123/eurekaserver:s15
+        image: ivo123/eurekaserver:s16
         ports:
         - containerPort: 8070
         resources:

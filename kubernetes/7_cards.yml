@@ -17,7 +17,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: cards
-        image: ivo123/cards:s15
+        image: ivo123/cards:s16
         ports:
         - containerPort: 9000
         resources:

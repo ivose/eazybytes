@@ -17,7 +17,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: configserver
-        image: ivo123/configserver:s15
+        image: ivo123/configserver:s16
         resources:
           requests:
             memory: "512Mi"

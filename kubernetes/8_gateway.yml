@@ -17,7 +17,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: gatewayserver
-        image: ivo123/gatewayserver:s15
+        image: ivo123/gatewayserver:s16
         ports:
         - containerPort: 8072
         resources:

@@ -17,7 +17,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: accounts
-        image: ivo123/accounts:s15
+        image: ivo123/accounts:s16
         ports:
         - containerPort: 8080
         resources:
